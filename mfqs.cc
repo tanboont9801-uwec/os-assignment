@@ -27,6 +27,7 @@ void sort_arrival(vector<process>& v){
         return a.arrival_time < b.arrival_time;
     });
 }
+/**
 void filter(vector<process>& v){
     for(int i = 0; i < v.size(); i++){
         if(v[i].arrival_time < 0){
@@ -37,18 +38,23 @@ void filter(vector<process>& v){
         }
     }
 }
+*/
+
 void queue_processing(vector<process>& v, vector<que>& q){  
 
-    // if there is remaining burst time of a processes >> push it to fcfs
+    //**** TO DO: assign new processes into first queue. Not done, push process to q.next()
    for(int index = 0; index < v.size(); index++){
-        if(v[index].burst_time > 0){
-            q.front(v);
-        }
+    for(int j = 0; j < q.size(); j++)
+            if(v[index].burst_time > 0){
+                q.push_back(v.at(index));
+            }
+            
+        
    }
 
-   //*** TO DO: 
-   // queue.next() is going to the next queue 
-   // and break into multilevel || how to implement multiple queues and their own time quantum 
+   //*** 
+   // queue.next() is go to the next queue 
+   
 
 }
 
@@ -91,6 +97,7 @@ int main(){
     
     //vector of process struct holding information about all of the process coming in 
     vector<process> processes;
+    
 
     //read a file and store into the vector
     int counter = 0;
@@ -101,12 +108,14 @@ int main(){
         int pid, burst, arrival;
 
         while(file >> pid >> burst >> arrival){
-            // ***** TO DO: add if to filter out -burst time || - arrival  don't  
+            // ***** 
+            if(burst > 0 || arrival > 0){  
             processes.push_back(process());
             processes[counter].pid = pid;
             processes[counter].burst_time = burst;
             processes[counter].arrival_time = arrival;
             counter++;
+            }
         }
         file.close();   
     }else{
@@ -115,7 +124,7 @@ int main(){
 
     //call function to sort the vector of processes by the arrival time
     sort_arrival(processes);
-    filter(processes);
+    //filter(processes);
 
 
     //intializes queues with the time quantum based on the parameters
@@ -131,11 +140,11 @@ int main(){
     //initializes first come first serve queue
     queue<process> fcfs;
     int remain_bursttime = processes[count].burst_time;
-    /* if the remaining burst time is 0 >> remove the process from the queue
-    */
-    if(remain_bursttime == 0){
-      fcfs.pop();
+    while(remain_bursttime > 0){
+        remain_bursttime++;
     }
+        fcfs.pop();
+
 
     int clock = 0;
     while(clock <= processes.size()){
@@ -145,9 +154,6 @@ int main(){
     
     return 0;
 
-
-
-}
 
 
 }
