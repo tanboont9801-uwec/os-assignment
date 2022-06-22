@@ -37,9 +37,19 @@ void filter(vector<process>& v){
         }
     }
 }
-void queue_processing(){
+void queue_processing(vector<process>& v, vector<que>& q){  
+
+    // if there is remaining burst time of a processes >> push it to fcfs
+   for(int index = 0; index < v.size(); index++){
+        if(v[index].burst_time > 0){
+            q.front(v);
+        }
+   }
+
+   
 
 }
+
 
 int main(){
     //variables
@@ -116,9 +126,13 @@ int main(){
     }
     //initializes first come first serve queue
     queue<process> fcfs;
-    
+    int remain_bursttime = processes[count].burst_time;
+    /* if the remaining burst time is 0 >> remove the process from the queue
+    */
+    if(remain_bursttime == 0){
+      fcfs.pop();
+    }
 
-    
     int clock = 0;
     while(clock <= processes.size()){
 
