@@ -1,10 +1,10 @@
 #include<iostream>
-#include<chrono>
-#include<thread>
 #include<vector>
 #include<queue>
 #include<fstream>
 #include<algorithm>
+#include<cmath>
+#include<string>
 
 using namespace std;
 
@@ -16,12 +16,27 @@ struct process {
     int turnaround_time;
 };
 
+struct que {
+    string id;
+    int time_quantum;
+    queue<process> q;
+};
+
 void sort_arrival(vector<process>& v){
     sort(v.begin(), v.end(), [](process a, process b){
         return a.arrival_time < b.arrival_time;
     });
 }
-
+void filter(vector<process>& v){
+    for(int i = 0; i < v.size(); i++){
+        if(v[i].arrival_time < 0){
+            v.erase(v.begin() + i);
+        }
+        if(v[i].burst_time <= 0){
+            v.erase(v.begin() + i);
+        }
+    }
+}
 void queue_processing(){
 
 }
@@ -86,9 +101,30 @@ int main(){
 
     //call function to sort the vector of processes by the arrival time
     sort_arrival(processes);
+    filter(processes);
+
+
+    //intializes queues with the time quantum based on the parameters
+    int count = 0;
+    vector<que> queues;
+    while(count < num_queues-1){
+        string qid = "Q" + to_string((count+1));
+        queues.push_back(que());
+        queues[count].time_quantum = (time_q * pow(2, count));
+        queues[count].id = qid;
+        count++;
+    }
+    //initializes first come first serve queue
+    queue<process> fcfs;
     
 
+    
+    int clock = 0;
+    while(clock <= processes.size()){
 
+    }
+
+    
     return 0;
 
 
