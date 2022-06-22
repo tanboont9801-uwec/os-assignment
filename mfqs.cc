@@ -46,7 +46,9 @@ void queue_processing(vector<process>& v, vector<que>& q){
         }
    }
 
-   
+   //*** TO DO: figure out time quantum of each queue, must have queue have their own process 
+   // queue.next() is going to the next queue 
+   // and break into multilevel || how to implement multiple queues and their own time quantum 
 
 }
 
@@ -97,7 +99,9 @@ int main(){
     if(file.is_open()) {
         getline(file, nothing);
         int pid, burst, arrival;
+
         while(file >> pid >> burst >> arrival){
+            // ***** TO DO: add if to filter out -burst time || - arrival  don't  
             processes.push_back(process());
             processes[counter].pid = pid;
             processes[counter].burst_time = burst;
