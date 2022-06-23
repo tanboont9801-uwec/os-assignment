@@ -132,7 +132,7 @@ int main(){
     while(procAmount > 0) {
         for(int i = 0; i < processes.size(); i++){
             if(clock == processes[i].arrival_time){
-                queues.[0].q.push(processes[i]);
+                queues[current].q.push(processes[i]);
                 cout << "Process " + to_string(processes[i].pid) + ": Arrives @\t" + to_string(processes[i].arrival_time) +"\n";
                 number_of_processes = number_of_processes + 1;
             }
