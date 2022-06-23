@@ -164,9 +164,9 @@ int main(){
         if(processCounter == queues[current].time_quantum){
             cout << "Process " + to_string(queues[current].q.front().pid) + ": Switched @\t" + to_string(clock) +"\n";
             if(current + 1 >= queues.size()){
-                //fcfs.push(queues[current].q.front());
+                fcfs.push(queues[current].q.front());
             } else{
-                //queues[current+1].q.push(queues[current].q.front());
+                queues[current+1].q.push(queues[current].q.front());
             }
             queues[current].q.pop();
             procRunning = false;
