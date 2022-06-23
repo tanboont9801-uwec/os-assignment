@@ -19,6 +19,7 @@ struct process {
 struct que {
     int time_quantum;
     queue<process> q;
+    int id;
 };
 
 void sort_arrival(vector<process>& v){
@@ -37,15 +38,6 @@ void filter(vector<process>& v){
     }
 }
 
-/*
-void queue_processing(vector<process>& v, vector<que>& q){
-    for(int index = 0; index < v.size(); index++){
-        for(int j = 0; j < q.size(); j++)
-                if(v[index].burst_time > 0){
-                    q.push_back(v.at(index));
-                }        
-   }
-}*/
 
 int main(){
     //variables
@@ -119,67 +111,67 @@ int main(){
         queues[count].time_quantum = (time_q * pow(2, count));
         count++;
     }
+    queues.push_back(que());
+    queues.back().time_quantum = (queues.back().q.front().burst_time);
+    queues.back().id = 5;
     //initializes first come first serve queue
-    queue<process> fcfs;
-
+    //queue<process> fcfs;
     
+
     int clock = 0;
     int procAmount = processes.size();
     bool procRunning;
     int processCounter = 0;
-    int current;
-
+    int current = 0;
+    
     while(procAmount > 0) {
         for(int i = 0; i < processes.size(); i++){
             if(clock == processes[i].arrival_time){
-                queues[current].q.push(processes[i]);
-                cout << "Process " + to_string(processes[i].pid) + ": Arrives @\t" + to_string(processes[i].arrival_time) +"\n";
+                queues.front().q.push(processes[i]);
+                cout << "Process " + to_string(processes[i].pid) + ": Arrives @\t" + to_string(clock) +"\n";
                 number_of_processes = number_of_processes + 1;
             }
         }
-        for(int j = 0; j < queues.size(); j++){
+        for(int j = 0; j<queues.size(); j++){
             if(!queues[j].q.empty()){
                 current = j;
                 break;
             }
         }
-            
-        if(!queues[current].q.empty()){
-            if(procRunning != true){
-                cout << "Process " + to_string(queues[current].q.front().pid) + ": Runs @\t" + to_string(clock) +"\n";
-                processCounter = -1;
-                procRunning = true;
-            }
+        if(queues[current].id == 5 && procRunning == true){
+            queues[current].q.front().burst_time--;
         }
-        if(procRunning == true && processCounter <= queues[current].time_quantum){
+
+        if(procRunning == true && processCounter < queues[current].time_quantum && queues[current].id != 5){
             queues[current].q.front().burst_time--;
             processCounter++;
         }
-        if(queues[current].q.front().burst_time == -1) {
+        
+        if(!queues[current].q.empty()){
+            if(procRunning != true){
+                cout << "Process " + to_string(queues[current].q.front().pid) + ": Runs @\t" + to_string(clock) +"\n";
+                processCounter = 0;
+                procRunning = true;
+            }
+        }
+
+        if(queues[current].q.front().burst_time == 0 && !queues[current].q.empty()) {
                 cout << "Process " + to_string(queues[current].q.front().pid) + ": Finished @\t" + to_string(clock) +"\n";
                 procAmount--;
                 queues[current].q.pop();
                 procRunning = false;
         } 
-        if(processCounter == queues[current].time_quantum){
+        if(processCounter == queues[current].time_quantum && !queues[current].q.empty() && queues[current].id != 5){
             cout << "Process " + to_string(queues[current].q.front().pid) + ": Switched @\t" + to_string(clock) +"\n";
-            if(current + 1 >= queues.size()){
-                fcfs.push(queues[current].q.front());
-            } else{
-                queues[current+1].q.push(queues[current].q.front());
+            queues[current+1].q.push(queues[current].q.front()); 
+            if(!queues[current].q.empty()){
+                queues[current].q.pop();
             }
-            queues[current].q.pop();
             procRunning = false;
         }
         clock++;
     }
     
-
-
-
-    
     return 0;
-
-
 
 }
