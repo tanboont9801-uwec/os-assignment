@@ -39,6 +39,7 @@ void filter(vector<process>& v){
 }
 
 
+
 int main(){
     //variables
     int k;
@@ -83,6 +84,7 @@ int main(){
     
     string nothing;
     ifstream file (filename + ".txt");
+    int a,b;
     if(file.is_open()) {
         getline(file, nothing);
         int pid, burst, arrival;
@@ -172,6 +174,12 @@ int main(){
         clock++;
     }
     
+
+
+
+    
     return 0;
+
+
 
 }
