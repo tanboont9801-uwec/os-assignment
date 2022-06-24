@@ -66,7 +66,7 @@ int main(){
     
 
     // retrieving user input
-    cout << "Running MFQS …… \n";
+    cout << "Running MFQS....... \n";
     cout <<"\n";
     cout << "Enter number of queues: ";
     cin >> num_queues;
@@ -125,13 +125,24 @@ int main(){
     bool procRunning;
     int processCounter = 0;
     int current = 0;
+
+//*** TODO: calculate ave. wait time & ave turnaround time
+/*
+- sumCompletionTime = sumCompletionTime +  pid[current]( clock from "Runs @" - clock from "Finished @" );
     
+*/
+    int sumCompletionTime = 0;
+    int sumArrivalTime = 0;
+    int sumBurstTime = 0;
+    // procAmount represents number of processes 
+        
     while(procAmount > 0) {
         for(int i = 0; i < processes.size(); i++){
             if(clock == processes[i].arrival_time){
                 queues.front().q.push(processes[i]);
                 cout << "Process " + to_string(processes[i].pid) + ": Arrives @\t" + to_string(clock) +"\n";
                 number_of_processes = number_of_processes + 1;
+                sumArrivalTime++;
             }
         }
         for(int j = 0; j<queues.size(); j++){
@@ -141,6 +152,8 @@ int main(){
             }
         }
         if(queues[current].id == 5 && procRunning == true){
+            // amount of remaining burst time decrease
+            // sum of burst time increase
             queues[current].q.front().burst_time--;
         }
 
@@ -162,6 +175,7 @@ int main(){
                 procAmount--;
                 queues[current].q.pop();
                 procRunning = false;
+                sumCompletionTime++;
         } 
         if(processCounter == queues[current].time_quantum && !queues[current].q.empty() && queues[current].id != 5){
             cout << "Process " + to_string(queues[current].q.front().pid) + ": Switched @\t" + to_string(clock) +"\n";
@@ -174,6 +188,16 @@ int main(){
         clock++;
     }
     
+    
+    
+    
+
+    int totalTurnaroundTime = sumCompletionTime - sumArrivalTime;
+    int totalWaitingTime = totalTurnaroundTime - sumBurstTime;
+
+    double aveTurnaroundTime;
+    double aveWaitingTime;
+
 
 
 
