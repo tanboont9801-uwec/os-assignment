@@ -1,0 +1,3 @@
+Pid	Burst	Arrval	Prioriyy	AgeIndx
+1	1	1	6		8	
+2	6	9	7		5	
