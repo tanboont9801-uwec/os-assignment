@@ -87,18 +87,28 @@ int main(){
     int a,b;
     if(file.is_open()) {
         getline(file, nothing);
-        int pid, burst, arrival;
-        while(file >> pid >> burst >> arrival){
+        int pid, burst, arrival, priority, ageindex;
+        while(file >> pid >> burst >> arrival >> priority >> ageindex){
             processes.push_back(process());
             processes[counter].pid = pid;
             processes[counter].burst_time = burst;
             processes[counter].arrival_time = arrival;
             counter++;
+
+            cout<<"pid: "<<endl;
+            cout<<pid<<endl;
+
+            cout<<"burst: "<<endl;
+            cout<<burst<<endl;
+
+            cout<<"arrival time: "<<endl;
+            cout<<arrival<<endl;
         }
         file.close();   
     }else{
         cout<< "Unable to open file\n";
     }
+    //exit(0);
 
     //call function to sort the vector of processes by the arrival time
     sort_arrival(processes);
@@ -119,25 +129,27 @@ int main(){
     //initializes first come first serve queue
     //queue<process> fcfs;
     
-
-    int clock = 0;
-    int procAmount = processes.size();
-    bool procRunning;
-    int processCounter = 0;
-    int current = 0;
-
-//*** TODO: calculate ave. wait time & ave turnaround time
+    //*** TODO: calculate ave. wait time & ave turnaround time
 /*
 - sumCompletionTime = sumCompletionTime +  pid[current]( clock from "Runs @" - clock from "Finished @" );
     
 */
+
+    int clock = 0;
+    
+    bool procRunning;
+    int processCounter = 0;
+    int current = 0;
+
     int sumCompletionTime = 0;
     int sumArrivalTime = 0;
     int sumBurstTime = 0;
+    int start;
     // procAmount represents number of processes 
+    int procAmount = processes.size();
         
     while(procAmount > 0) {
-        for(int i = 0; i < processes.size(); i++){
+        for(int i = 0; i < processes.size()-1; i++){
             if(clock == processes[i].arrival_time){
                 queues.front().q.push(processes[i]);
                 cout << "Process " + to_string(processes[i].pid) + ": Arrives @\t" + to_string(clock) +"\n";
@@ -188,15 +200,13 @@ int main(){
         clock++;
     }
     
-    
-    
-    
-
+   
+    /*
     int totalTurnaroundTime = sumCompletionTime - sumArrivalTime;
     int totalWaitingTime = totalTurnaroundTime - sumBurstTime;
 
     double aveTurnaroundTime;
-    double aveWaitingTime;
+    double aveWaitingTime; */
 
 
 
