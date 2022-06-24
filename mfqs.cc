@@ -149,37 +149,60 @@ int main(){
     int procAmount = processes.size();
         
     while(procAmount > 0) {
-        for(int i = 0; i < processes.size()-1; i++){
+        for(int i = 0; i < processes.size(); i++){
+            //cout<<" line 153: "<<processes[i].arrival_time<<endl;
             if(clock == processes[i].arrival_time){
+                //cout<<"line 154"<<endl;
                 queues.front().q.push(processes[i]);
                 cout << "Process " + to_string(processes[i].pid) + ": Arrives @\t" + to_string(clock) +"\n";
                 number_of_processes = number_of_processes + 1;
                 sumArrivalTime++;
+                //cout<<"line 160"<<endl;
             }
         }
         for(int j = 0; j<queues.size(); j++){
             if(!queues[j].q.empty()){
                 current = j;
+                //cout<<"line 166"<<endl;
                 break;
-            }
+
+                
+            }   
+                
+                //cout<<"line 172"<<endl;
+                continue;
+                
+
         }
         if(queues[current].id == 5 && procRunning == true){
             // amount of remaining burst time decrease
             // sum of burst time increase
             queues[current].q.front().burst_time--;
+            // not being printed
+            //cout<<"line 182"<<endl;
+               
+
         }
 
         if(procRunning == true && processCounter < queues[current].time_quantum && queues[current].id != 5){
             queues[current].q.front().burst_time--;
             processCounter++;
+            //cout<<"line 190"<<endl;
+                
+
         }
         
+        /* modifies runs at */
         if(!queues[current].q.empty()){
             if(procRunning != true){
                 cout << "Process " + to_string(queues[current].q.front().pid) + ": Runs @\t" + to_string(clock) +"\n";
                 processCounter = 0;
                 procRunning = true;
+                //cout<<"line 201"<<endl;
+                
+
             }
+            //cout<<"line 205"<<endl;
         }
 
         if(queues[current].q.front().burst_time == 0 && !queues[current].q.empty()) {
@@ -188,16 +211,36 @@ int main(){
                 queues[current].q.pop();
                 procRunning = false;
                 sumCompletionTime++;
+                //cout<<"line 214"<<endl;
+                
+
         } 
         if(processCounter == queues[current].time_quantum && !queues[current].q.empty() && queues[current].id != 5){
             cout << "Process " + to_string(queues[current].q.front().pid) + ": Switched @\t" + to_string(clock) +"\n";
             queues[current+1].q.push(queues[current].q.front()); 
             if(!queues[current].q.empty()){
                 queues[current].q.pop();
+                
+                // ?? not being printed
+                //cout<<"line 225"<<endl;
+                
             }
+            // kiki and dug not being printed
+            //cout<<"kiki"<<endl;
             procRunning = false;
+            //cout<<"line 231"<<endl;
         }
+        // if clock go over 20 >> exit
+        //cout<<"line 234" <<clock<<endl;
         clock++;
+        if(clock >= 20){
+            break;
+        }
+
+        // infinite loop
+        //cout<<"line 241";
+
+        
     }
     
    
