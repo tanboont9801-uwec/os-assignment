@@ -231,7 +231,19 @@ int main(){
                     process will run at current queue when it hits the arrival time
                     index of current will increment by 1
                 
-                else if ()
+                else if (process at current queue with burst time == 0 && not running)
+                    it means the process has completed its burst time 
+                    NOTE: line 243
+                    number of process completed increase
+                    number of remaining process decrement by 1
+                    current queue will pop the process out
+                    
+                    if (current queue is not empty) OR (next queue is not empty) AND (no process is running)
+                        if (current queue is not empty) OR (next queue is not empty) AND (no process is running)
+                        next process will enter the queue when clock time == arrival time
+                        else if (current queue is empty)
+                            process at the front of next queue will  run with clock time == arrival time
+                            index of current will increment by 1
             
         */
     
