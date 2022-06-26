@@ -222,7 +222,7 @@ int main(){
         //set the complete time to the clock
         //increment the number of processes completed, decrement the amount of processes left
         //pop from the current queue
-        //set procRunning to false
+        //set procRunning to false (line 242)
         /*
             if ( current queue is not empty ) OR ( next queue is not empty ) AND ( no process is running )
                 if ( current queue is not empty )
@@ -230,6 +230,8 @@ int main(){
                 else if ( current queue is empty )
                     process will run at current queue when it hits the arrival time
                     index of current will increment by 1
+                
+                else if ()
             
         */
     
