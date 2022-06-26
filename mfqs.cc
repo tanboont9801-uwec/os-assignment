@@ -161,6 +161,9 @@ int main(){
                     front process (of final queue) will exit the queue
                     
                 if ( 1st process at last queue with an age == age interval )
+                    queue @ ( 2 queue before the final one ) push the ( front process of final queue ) 
+                    and pop the process at the final queue
+                    
                     NOTE: line 176
                     
         */  
@@ -179,7 +182,13 @@ int main(){
             }
         }
         
-        
+        /*
+            if (the process is still running) AND (current position of queue is not @ final) AND ( process at current queue running duration is < current queue time quantum )
+                burst time of front process @ current queue will decrement by 1
+                running duration of a process increment by 1
+            else if ( process @ current queue reach the limit and it is still running )
+                burst time of front process at current queue will decrement by 1
+        */
         if(procRunning == true && queues[current].id != 5 && queues[current].q.front()->timeRan < queues[current].time_quantum){
             queues[current].q.front()->burst_time--;
             queues[current].q.front()->timeRan++;
