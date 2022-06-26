@@ -223,6 +223,16 @@ int main(){
         //increment the number of processes completed, decrement the amount of processes left
         //pop from the current queue
         //set procRunning to false
+        /*
+            if ( current queue is not empty ) OR ( next queue is not empty ) AND ( no process is running )
+                if ( current queue is not empty )
+                    process at current queue will be running
+                else if ( current queue is empty )
+                    process will run at current queue when it hits the arrival time
+                    index of current will increment by 1
+            
+        */
+    
         if(queues[current].q.front()->burst_time == 0 && procRunning) {
                 cout << "Process " << (queues[current].q.front()->pid) << ": Finished @\t" << clock << "\n";
                 queues[current].q.front()->complete = clock;
@@ -231,15 +241,15 @@ int main(){
                 queues[current].q.pop();
                 procRunning = false; 
                 if(!queues[current].q.empty() || !queues[current+1].q.empty() && !procRunning){
-                if(!queues[current].q.empty()){
-                    cout << "Process " << queues[current].q.front()->pid << ": Runs @\t" << clock << "\n";
-                    procRunning = true;
-                } else if(queues[current].q.empty()){
+                    if(!queues[current].q.empty()){
+                        cout << "Process " << queues[current].q.front()->pid << ": Runs @\t" << clock << "\n";
+                        procRunning = true;
+                    } else if(queues[current].q.empty()){
                     cout << "Process " << queues[current+1].q.front()->pid << ": Runs @\t" << clock << "\n";
                     procRunning = true;
                     current = current + 1;
+                    }
                 }
-            }
         } else if(queues[current].q.front()->timeRan == queues[current].time_quantum && queues[current].id != 5 && procRunning){
             cout << "Process " << queues[current].q.front()->pid << ": Switched @\t" << clock << "\n";
             queues[current].q.front()->timeRan = 0;
