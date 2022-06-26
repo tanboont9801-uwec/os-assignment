@@ -84,7 +84,10 @@ int main(){
 
     //read a file and store into the vector
     int counter = 0;
-    
+   
+    /*
+         read the file's content and format the int to 3 sections: pid, burst, arrival
+    */
     string nothing;
     ifstream file (filename + ".txt");
     int a,b;
@@ -121,7 +124,10 @@ int main(){
     queues.back().id = 5;
     //initializes first come first serve queue
     
-
+    /*
+        if (the remaining process is greater than 0)
+            the process will run when clock time == process[i] arrival time
+    */
     int clock = 0;
     int procAmount = processes.size();
     bool procRunning;
