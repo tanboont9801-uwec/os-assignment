@@ -155,13 +155,14 @@ int main(){
         
         /*
             if ( position of queue[i] is not the final queue )
-                if (last process and 1st process at queue[current] with an age < age interval )
-                    increment the last process and 1st process by 1
-                    front process will be push to the last position at the queue
-                    front process will exit the queue
+                if ( 1st process at last queue with an age < age interval )
+                    increment the first process @ last position by 1
+                    last process of final queue will be push the the 1st position of last queue
+                    front process (of final queue) will exit the queue
                     
-                if ( last process and 1st process at queue[current] with an age < age interval )
-                    NOTE: line 175
+                if ( 1st process at last queue with an age == age interval )
+                    NOTE: line 176
+                    
         */  
         if(queues[current].id != 5){
             for(int i = 0; i < queues.back().q.size(); i++){
