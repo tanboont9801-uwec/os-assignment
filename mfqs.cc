@@ -134,6 +134,15 @@ int main(){
     int current = 0; // index of queue 
     int number_of_processes = 0;
 
+    /*
+     while (remaining process > 0 )
+        if ( clock time == process[i] arrival time )
+            processes[i] will be pushed into 1st queue
+            // print statement
+            if ( arrival time of next process == current process arrival time )
+                continue with for loop statement @ line 147
+            
+    */
     while(procAmount > 0) {
         for(int i = 0; i < processes.size(); i++){
             if(clock == processes[i].arrival_time){
