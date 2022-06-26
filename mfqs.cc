@@ -140,8 +140,7 @@ int main(){
             processes[i] will be pushed into 1st queue
             // print statement
             if ( arrival time of next process == current process arrival time )
-                continue with for loop statement @ line 147
-            
+                continue with for loop statement @ line 147            
     */
     while(procAmount > 0) {
         for(int i = 0; i < processes.size(); i++){
@@ -153,7 +152,17 @@ int main(){
                 }else break;
             } 
         }
-          
+        
+        /*
+            if ( position of queue[i] is not the final queue )
+                if (last process and 1st process at queue[current] with an age < age interval )
+                    increment the last process and 1st process by 1
+                    front process will be push to the last position at the queue
+                    front process will exit the queue
+                    
+                if ( last process and 1st process at queue[current] with an age < age interval )
+                    NOTE: line 175
+        */  
         if(queues[current].id != 5){
             for(int i = 0; i < queues.back().q.size(); i++){
                 if(queues.back().q.front()->age < age_interval){
