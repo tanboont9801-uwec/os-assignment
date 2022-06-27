@@ -97,7 +97,7 @@ int main(){
     if(file.is_open()) {
         getline(file, nothing);
         int pid, burst, arrival;
-        while(file >> pid >> burst >> arrival>> a >> b){
+        while(file >> pid >> burst >> arrival >> a >> b){
             processes.push_back(process());
             processes[counter].pid = pid;
             processes[counter].burst_time = burst;
@@ -147,7 +147,7 @@ int main(){
 
         for(int i = 0; i < processes.size(); i++){
             if(clock == processes[i].arrival_time){
-                queues.front().q.push_back(&processes[i]);
+                queues.front().q.emplace_back(&processes[i]);
                 cout << "Process " << processes[i].pid << ": Arrives @\t" << clock << "\n";
                 if(processes[i+1].arrival_time == processes[i].arrival_time){
                     continue;
@@ -160,18 +160,18 @@ int main(){
                 if(queues.back().q.front()->age < age_interval){
                     queues.back().q.front()->age++;
                     //cout << queues.back().q.front()->pid << " " << queues.back().q.front()->age <<  endl;
-                    queues.back().q.push_back(queues.back().q.front());
+                    queues.back().q.emplace_back(queues.back().q.front());
                     queues.back().q.pop_front();
                 }
                 if(queues.back().q.front()->age == age_interval){
-                    queues[num_queues-2].q.push_back(queues.back().q.front());
+                    queues[num_queues-2].q.emplace_back(queues.back().q.front());
                     queues.back().q.pop_front();
                 }
             }
         }
         
         if(procRunning == true && queues[current].id != 5 && queues[current].q.front()->timeRan < queues[current].time_quantum){
-            queues[current].q.front()->burst_time = queues[current].q.front()->burst_time - 1;
+            queues[current].q.front()->burst_time--;
             queues[current].q.front()->timeRan++;
         }else if(queues[current].id == 5 && procRunning == true){
             queues[current].q.front()->burst_time--;
@@ -184,11 +184,11 @@ int main(){
                         cout << "Process " << (queues[current].q.front()->pid) << ": Finished @\t" << clock << "\n";
                         queues[current].q.front()->complete = clock;
                         number_of_processes++;
-                        queues[current].q.pop_back();
-                    } else if(queues[current].q.front()->timeRan == queues[current].time_quantum){
+                        queues[current].q.pop_front();
+                    } else if(queues[current].q.front()->timeRan == queues[current].time_quantum && queues[current].id != 5){
                         cout << "Process " << queues[current].q.front()->pid << ": Switched @\t" << clock << "\n";
                         queues[current].q.front()->timeRan = 0;
-                        queues[current+1].q.push_back(queues[current].q.front()); 
+                        queues[current+1].q.emplace_back(queues[current].q.front()); 
                         queues[current].q.pop_front();
                     }
                     procRunning = false;
@@ -196,8 +196,6 @@ int main(){
                     break;
                 } else {
                     current = j;
-
-                    
                     break;
                 }
             }
@@ -216,25 +214,23 @@ int main(){
                 queues[current].q.pop_front();
                 number_of_processes++;
                 procRunning = false; 
-                
                 if(!queues[current].q.empty() || !queues[current+1].q.empty()){
                     if(!queues[current].q.empty()){
                         cout << "Process " << queues[current].q.front()->pid << ": Runs @\t" << clock << "\n";
                         procRunning = true;
                     } else if(queues[current].q.empty()){
-                    cout << "Process " << queues[current+1].q.front()->pid << ": Runs @\t" << clock << "\n";
-                    procRunning = true;
-                    current = current + 1;
+                        cout << "Process " << queues[current+1].q.front()->pid << ": Runs @\t" << clock << "\n";
+                        procRunning = true;
+                        current = current + 1;
                     }
-                }
-        } else  
-        if(queues[current].q.front()->timeRan == queues[current].time_quantum && queues[current].id !=5){
+            }
+               
+        } else if(queues[current].q.front()->timeRan == queues[current].time_quantum && queues[current].id !=5) {
             cout << "Process " << queues[current].q.front()->pid << ": Switched @\t" << clock << "\n";
             queues[current].q.front()->timeRan = 0;
-            queues[current+1].q.push_back(queues[current].q.front()); 
+            queues[current+1].q.emplace_back(queues[current].q.front()); 
             queues[current].q.pop_front();
             procRunning = false;
-
             if(!queues[current].q.empty() || !queues[current+1].q.empty()){
                 if(!queues[current].q.empty()){
                     cout << "Process " << queues[current].q.front()->pid << ": Runs @\t" << clock << "\n";
@@ -246,6 +242,7 @@ int main(){
                 }
             }
         }
+        
         clock++;
     }
 
