@@ -97,7 +97,7 @@ int main(){
     if(file.is_open()) {
         getline(file, nothing);
         int pid, burst, arrival;
-        while(file >> pid >> burst >> arrival){
+        while(file >> pid >> burst >> arrival>> a >> b){
             processes.push_back(process());
             processes[counter].pid = pid;
             processes[counter].burst_time = burst;
@@ -183,7 +183,6 @@ int main(){
                     if(queues[current].q.front()->burst_time == 0){
                         cout << "Process " << (queues[current].q.front()->pid) << ": Finished @\t" << clock << "\n";
                         queues[current].q.front()->complete = clock;
-                        delete queues[current].q.front();
                         number_of_processes++;
                         queues[current].q.pop_back();
                     } else if(queues[current].q.front()->timeRan == queues[current].time_quantum){
@@ -214,7 +213,6 @@ int main(){
         if(queues[current].q.front()->burst_time == 0) {
                 cout << "Process " << (queues[current].q.front()->pid) << ": Finished @\t" << clock << "\n";
                 queues[current].q.front()->complete = clock;
-                delete queues[current].q.front();
                 queues[current].q.pop_front();
                 number_of_processes++;
                 procRunning = false; 
